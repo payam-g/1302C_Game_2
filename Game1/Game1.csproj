@@ -70,5 +70,14 @@
     <Content Include="Assets\bullet.png" />
     <Content Include="Assets\weapon2.png" />
     <Content Include="Assets\weapon3.png" />
+    <Content Include="Assets\Bacteria.png" />
+    <Content Include="Assets\Bomb.wav" />
+    <Content Include="Assets\ShotgunBlast.wav" />
+    <Content Include="Assets\SingleShot.wav" />
+    <Content Include="Assets\tank.png" />
+    <Content Include="Assets\Wasteland.png" />
+    <Content Include="Assets\Wasteland%28Greg_Vaughan%29.mp3" />
+    <Content Include="Assets\Wind.png" />
+    <Content Include="Assets\zombie.png" />
   </ItemGroup>
 </Project>

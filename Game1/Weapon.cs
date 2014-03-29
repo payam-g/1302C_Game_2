@@ -157,12 +157,12 @@ namespace Game1
 			else{}
 		}
 		
-		public virtual void Spawn()
-		{
-		Random rand1 = new Random();
-		Vector3 spawn = new Vector3 (rand1.Next(60, 901), rand1.Next (44,500), 0);
-			
-		}
+//		public virtual void Spawn()
+//		{
+//		Random rand1 = new Random();
+//		Vector3 spawn = new Vector3 (rand1.Next(60, 901), rand1.Next (44,500), 0);
+//			
+//		}
 		
 		public virtual void Update (Player player, long elapsed, GamePadData gamepaddata)
 		{
@@ -178,4 +178,3 @@ namespace Game1
 		
 	}
 }
- 

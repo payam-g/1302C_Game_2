@@ -72,6 +72,14 @@ namespace Game1
 		private int frames;
 		private int active;
 		private long time;
+		private List<Weapon> wlist;
+		private int wepsel;
+		
+		public List<Weapon> WList
+		{
+			get { return wlist;}	
+			set { wlist = value;}
+		}
 		
 		public Player (GraphicsContext g, Collision c)
 		{
@@ -89,14 +97,32 @@ namespace Game1
 			s.Width = size;
 			s.Center= new Vector2(0.5f, 0.5f);
 			s.Rotation = (float)Math.PI/2f;
-
-			
+			wlist = new List<Weapon>();
+			health = 5;
 		}
 		
 		public void Update(GamePadData gamepaddata, long elapsed)
 		{
 			time += elapsed;
 			
+			if(wlist.Count > 0)
+			{
+				if((gamepaddata.ButtonsDown & GamePadButtons.Left)!=0){
+					Console.WriteLine(wepsel);
+					if(wepsel==0){
+						wepsel=wlist.Count-1;
+					}
+						else{wepsel--;}
+				}
+				if((gamepaddata.ButtonsDown & GamePadButtons.Right)!=0){
+					Console.WriteLine(wepsel);
+					if(wepsel==wlist.Count-1){
+						wepsel=0;
+					}
+					else{wepsel++;}
+				}
+				wlist[wepsel].Update(this, elapsed, gamepaddata);
+			}
 			if((gamepaddata.Buttons & GamePadButtons.Triangle)!=0){
 				s.Position.X += (float)Math.Sin (s.Rotation) * movementSpeed;
 				s.Position.Y -= (float)Math.Cos (s.Rotation) * movementSpeed;
@@ -135,6 +161,8 @@ namespace Game1
 		
 		public void Render()
 		{
+			if(wlist.Count > 0)
+				wlist[wepsel].Render();
 			s.SetTextureCoord(size*active,0,(size*(active+1)), size);
 			s.Render();
 		}

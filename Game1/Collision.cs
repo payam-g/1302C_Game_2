@@ -13,6 +13,7 @@ namespace Game1
 	{
 		public List<Bullet> blist;
 		public List<Enemy> elist;
+		public List<Item> ilist;
 		public Player p;
 		public static Random rand = new Random();
 		private GraphicsContext graphics;
@@ -21,6 +22,7 @@ namespace Game1
 		{
 			blist = new List<Bullet>();
 			elist = new List<Enemy>();
+			ilist = new List<Item>();
 			graphics = g;
 		}
 		
@@ -39,7 +41,7 @@ namespace Game1
 		
 		public static bool Colliding(Sprite s1, Sprite s2)
 		{	
-			if(Vector3.DistanceSquared(s1.Position, s2.Position) < Math.Pow((s1.Width + s2.Width)/2, 2))
+			if(Vector3.DistanceSquared(s1.Position, s2.Position) < Math.Pow((s1.Height + s2.Height)/2, 2))
 			{
 				return true;
 			}
@@ -56,10 +58,6 @@ namespace Game1
 			   
 		}
 		
-		
-		
-		
-		
 		public void SpawnEnemy(){
 			int random = rand.Next(0,3);
 			Vector3 randompos = new Vector3(rand.Next(30, 930), rand.Next (30, 514),0);
@@ -74,11 +72,7 @@ namespace Game1
 				elist.Add(new Enemy3(graphics, this, randompos));
 				break;
 			}
-				
-			
-			
-			
-			
+
 		}
 		
 		public void Update(long elapsed){
@@ -86,6 +80,27 @@ namespace Game1
 				b.Update();
 				if(!OnScreen(b.s.Position, b.Graphics))
 					b.IsAlive = false;
+			}
+			
+			foreach(Item i in ilist)
+			{
+				if(Colliding(p.s, i.s))
+				{
+				    i.IsAlive = false;
+					switch(i.CurrentType)
+					{
+					case Item.Type.Pistol:
+						p.WList.Add (new Pistol(p.s.Position, graphics, this));
+						break;
+					case Item.Type.Machinegun:
+						p.WList.Add (new Machinegun(p.s.Position, graphics, this));
+						break;
+					case Item.Type.Shotgun:
+						p.WList.Add (new Shotgun(p.s.Position, graphics, this));
+						break;
+					}
+					break;
+				}
 			}
 			
 			foreach(Enemy e in elist){
@@ -121,6 +136,12 @@ namespace Game1
 				if(!elist[e].IsAlive)
 					elist.RemoveAt(e);
 			}
+			
+			for(int i = ilist.Count - 1; i >= 0; i--)
+			{
+				if(!ilist[i].IsAlive)
+					ilist.RemoveAt(i);
+			}
 		}
 		
 		
@@ -132,6 +153,9 @@ namespace Game1
 			foreach(Enemy e in elist){
 				e.Render();
 			}
+			
+			foreach(Item i in ilist)
+				i.Render();
 		}
 	}
 }
